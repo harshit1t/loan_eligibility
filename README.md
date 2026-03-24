@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Loan Eligibility Calculator
+
+A full-stack loan eligibility web app built with **Next.js 15 (App Router)**, **TypeScript**, and **TailwindCSS**, targeting the Indian lending market.
+
+## Features
+
+- **5-step application wizard** — personal info, loan details, existing debt, review, and result
+- **Live RBI rate integration** — loan interest rates derived from the RBI Repo Rate
+- **FOIR-based eligibility** — Fixed Obligation to Income Ratio calculation per RBI/NBFC guidelines
+- **Zod-validated API routes** — type-safe backend with proper error responses
+- **CIBIL score simulation** — 350–900 range score with credit band classification
+- **Age-based tenure cap** — loan must close before the borrower turns 60
+- **Customer dashboard** — full amortization schedule, EMI status tracking, and prepayment impact analysis
+
+## Tech Stack
+
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: TailwindCSS v4
+- **Validation**: Zod
+- **Fonts**: Manrope + Inter (Google Fonts)
+
+## API Routes
+
+| Method | Route | Description |
+|--------|-------|-------------|
+| GET | `/api/rates/live` | Fetch current RBI Repo Rate and derived lending rates |
+| POST | `/api/loan/calculate` | Run FOIR eligibility calculation with Zod validation |
+| POST | `/api/dashboard` | Generate amortization schedule and prepayment analysis |
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── api/
+│   │   ├── rates/live/    # RBI rate fetch
+│   │   ├── loan/calculate/ # FOIR eligibility engine
+│   │   └── dashboard/     # Amortization schedule
+│   ├── step-1/            # Personal info
+│   ├── step-2/            # Loan details
+│   ├── step-3/            # Existing debt
+│   ├── step-4/            # Review summary
+│   ├── step-5/            # Eligibility result
+│   └── dashboard/         # Customer dashboard
+├── context/
+│   └── LoanContext.tsx    # Global state + utilities
+└── app/globals.css        # Theme variables
+```
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Deploy directly on [Vercel](https://vercel.com). No database required — all calculations are stateless.
 
-## Learn More
+## Eligibility Formula
 
-To learn more about Next.js, take a look at the following resources:
+Eligibility is based on the **FOIR (Fixed Obligation to Income Ratio)** standard used by Indian banks and NBFCs:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+FOIR Limit: Salaried 50% | Freelance 45% | Business 40%
+Available EMI = (Income × FOIR Limit) - Existing EMIs
+Max Loan = Available EMI × ((1 - (1 + r)^-n) / r)
+```
