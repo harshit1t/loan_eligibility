@@ -24,7 +24,7 @@ export default function Step4() {
     <div className="bg-background font-body text-on-background min-h-screen flex flex-col pt-16">
       <nav className="fixed top-0 w-full z-50 bg-white border-b border-slate-100 shadow-sm h-16 flex justify-between items-center px-8 max-w-full mx-auto">
         <div className="text-xl font-extrabold tracking-tighter text-[#000613] font-headline">
-          The Sovereign Editorial
+          LoanCheck
         </div>
       </nav>
 

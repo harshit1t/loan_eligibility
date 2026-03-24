@@ -22,7 +22,7 @@ export default function Step1() {
       <nav className="fixed top-0 w-full z-50 bg-white border-b border-slate-100 shadow-sm h-16">
         <div className="flex justify-between items-center h-full px-8 max-w-full mx-auto">
           <div className="text-xl font-extrabold tracking-tighter text-[#000613] font-['Manrope']">
-            The Sovereign Editorial
+            LoanCheck
           </div>
           <div className="hidden md:flex items-center space-x-8">
             <span className="text-slate-500 font-['Manrope'] tracking-tight font-bold">Dashboard</span>

@@ -52,7 +52,7 @@ export default function Step5() {
     <div className="bg-background text-on-background font-body min-h-screen flex flex-col overflow-x-hidden">
       <nav className="fixed top-0 w-full z-50 bg-white border-b border-slate-100 shadow-sm">
         <div className="flex justify-between items-center h-16 px-8 max-w-full mx-auto">
-          <div className="text-xl font-extrabold tracking-tighter text-[#000613] font-headline">The Sovereign Editorial</div>
+          <div className="text-xl font-extrabold tracking-tighter text-[#000613] font-headline">LoanCheck</div>
         </div>
       </nav>
 

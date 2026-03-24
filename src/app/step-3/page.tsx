@@ -17,7 +17,7 @@ export default function Step3() {
       <header className="fixed top-0 w-full z-50 bg-white dark:bg-[#000613] border-b border-slate-100 dark:border-slate-800/50 shadow-sm dark:shadow-none">
         <div className="flex justify-between items-center h-16 px-8 max-w-full mx-auto">
           <div className="text-xl font-extrabold tracking-tighter text-[#000613] dark:text-white font-headline">
-            The Sovereign Editorial
+            LoanCheck
           </div>
         </div>
       </header>

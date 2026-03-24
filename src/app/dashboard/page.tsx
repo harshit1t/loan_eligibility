@@ -122,7 +122,7 @@ export default function Dashboard() {
       <nav className="sticky top-0 z-50 bg-white border-b border-slate-100 shadow-sm">
         <div className="flex justify-between items-center h-16 px-8 max-w-7xl mx-auto">
           <div className="text-xl font-extrabold tracking-tighter text-[#000613] font-headline">
-            The Sovereign Editorial
+            LoanCheck
           </div>
           <div className="flex items-center gap-3">
             <div className="hidden md:flex flex-col items-end">

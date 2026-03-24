@@ -14,8 +14,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "The Sovereign Editorial",
-  description: "Institutional Grade Lending",
+  title: "LoanCheck — Loan Eligibility Calculator",
+  description: "Check your loan eligibility using FOIR calculations and live RBI repo rates.",
 };
 
 export default function RootLayout({

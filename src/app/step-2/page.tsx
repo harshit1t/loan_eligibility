@@ -51,7 +51,7 @@ export default function Step2() {
       <header className="fixed top-0 w-full z-50 bg-white border-b border-slate-100 shadow-sm transition-all duration-200">
         <div className="flex justify-between items-center h-16 px-8 max-w-full mx-auto">
           <div className="text-xl font-extrabold tracking-tighter text-[#000613] font-headline">
-            The Sovereign Editorial
+            LoanCheck
           </div>
         </div>
       </header>
