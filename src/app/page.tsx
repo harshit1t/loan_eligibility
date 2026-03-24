@@ -72,8 +72,47 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Steps row */}
+      {/* Financial Tools */}
       <section className="py-16 px-6 max-w-5xl mx-auto w-full">
+        <h2 className="font-headline font-bold text-3xl text-primary text-center mb-3">Financial Tools</h2>
+        <p className="text-on-surface-variant text-center text-sm mb-12">Standalone calculators you can use independently</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Link href="/tools/tax-benefit" className="group flex flex-col gap-4 p-8 bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+            <div className="flex items-center justify-between">
+              <span className="material-symbols-outlined text-on-tertiary-container text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>receipt_long</span>
+              <span className="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">arrow_forward</span>
+            </div>
+            <div>
+              <h3 className="font-headline font-bold text-xl text-on-background mb-1">Tax Benefit Calculator</h3>
+              <p className="text-on-surface-variant text-sm leading-relaxed">Calculate your actual post-tax cost of a home loan. Section 24(b) interest + 80C principal deductions under old vs new tax regime.</p>
+            </div>
+            <div className="flex gap-2">
+              <span className="bg-surface-container-low text-on-surface font-label text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wide">Sec 24(b)</span>
+              <span className="bg-surface-container-low text-on-surface font-label text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wide">Sec 80C</span>
+              <span className="bg-surface-container-low text-on-surface font-label text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wide">Old vs New Regime</span>
+            </div>
+          </Link>
+
+          <Link href="/tools/joint-loan" className="group flex flex-col gap-4 p-8 bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+            <div className="flex items-center justify-between">
+              <span className="material-symbols-outlined text-on-tertiary-container text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>group</span>
+              <span className="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">arrow_forward</span>
+            </div>
+            <div>
+              <h3 className="font-headline font-bold text-xl text-on-background mb-1">Joint Loan Calculator</h3>
+              <p className="text-on-surface-variant text-sm leading-relaxed">Add a co-applicant to see combined FOIR capacity. Compares standalone vs joint eligibility with income-proportional ownership split.</p>
+            </div>
+            <div className="flex gap-2">
+              <span className="bg-surface-container-low text-on-surface font-label text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wide">Combined FOIR</span>
+              <span className="bg-surface-container-low text-on-surface font-label text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wide">Co-applicant</span>
+              <span className="bg-surface-container-low text-on-surface font-label text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wide">Ownership Split</span>
+            </div>
+          </Link>
+        </div>
+      </section>
+
+      {/* Steps row */}
+      <section className="py-16 px-6 max-w-5xl mx-auto w-full border-t border-outline-variant/10">
         <h2 className="font-headline font-bold text-3xl text-primary text-center mb-12">How it works</h2>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           {[
