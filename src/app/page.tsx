@@ -108,6 +108,37 @@ export default function Home() {
               <span className="bg-surface-container-low text-on-surface font-label text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wide">Ownership Split</span>
             </div>
           </Link>
+
+          <Link href="/tools/loan-compare" className="group flex flex-col gap-4 p-8 bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+            <div className="flex items-center justify-between">
+              <span className="material-symbols-outlined text-on-tertiary-container text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>compare_arrows</span>
+              <span className="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">arrow_forward</span>
+            </div>
+            <div>
+              <h3 className="font-headline font-bold text-xl text-on-background mb-1">Lender Comparison Engine</h3>
+              <p className="text-on-surface-variant text-sm leading-relaxed">Compare offers from SBI, HDFC, ICICI, Axis, PNB Housing & IDFC First. Ranked by Total Cost of Credit — not just the headline rate.</p>
+            </div>
+            <div className="flex gap-2">
+              <span className="bg-surface-container-low text-on-surface font-label text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wide">6 Lenders</span>
+              <span className="bg-surface-container-low text-on-surface font-label text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wide">Total Cost of Credit</span>
+            </div>
+          </Link>
+
+          <Link href="/tools/stress-test" className="group flex flex-col gap-4 p-8 bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+            <div className="flex items-center justify-between">
+              <span className="material-symbols-outlined text-on-tertiary-container text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>science</span>
+              <span className="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform">arrow_forward</span>
+            </div>
+            <div>
+              <h3 className="font-headline font-bold text-xl text-on-background mb-1">Monte Carlo Stress Test</h3>
+              <p className="text-on-surface-variant text-sm leading-relaxed">Simulates 1,000 income paths using Geometric Brownian Motion. Returns probability of FOIR breach at 1yr, 3yr, and 5yr checkpoints.</p>
+            </div>
+            <div className="flex gap-2">
+              <span className="bg-surface-container-low text-on-surface font-label text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wide">GBM Simulation</span>
+              <span className="bg-surface-container-low text-on-surface font-label text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wide">Risk Band</span>
+              <span className="bg-surface-container-low text-on-surface font-label text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wide">P10/P50/P90</span>
+            </div>
+          </Link>
         </div>
       </section>
 

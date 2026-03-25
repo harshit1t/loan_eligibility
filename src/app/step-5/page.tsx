@@ -10,6 +10,60 @@ export default function Step5() {
   const [result, setResult] = useState<CalcResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [downloading, setDownloading] = useState(false);
+  const [shareUrl, setShareUrl] = useState<string | null>(null);
+  const [sharing, setSharing] = useState(false);
+
+  const downloadPdf = async (r: CalcResult) => {
+    setDownloading(true);
+    try {
+      const res = await fetch("/api/report/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...r, fullName: data.fullName, loanPurpose: data.loanPurpose }),
+      });
+      if (!res.ok) throw new Error("PDF failed");
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `LoanCheck-${data.fullName.replace(/\s+/g, "-")}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      alert("PDF generation failed.");
+    } finally {
+      setDownloading(false);
+    }
+  };
+
+  const shareResult = async (r: CalcResult) => {
+    setSharing(true);
+    try {
+      const res = await fetch("/api/share/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...r,
+          annualRate: r.annualInterestRate, // fix: CalcResult uses annualInterestRate; API schema expects annualRate
+          fullName: data.fullName,
+          loanPurpose: data.loanPurpose,
+        }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        setShareUrl(json.data.shareUrl);
+        navigator.clipboard?.writeText(json.data.shareUrl).catch(() => {});
+      } else {
+        const msg = Object.values(json.details ?? {}).flat().join(", ") || json.error;
+        alert("Share failed: " + msg);
+      }
+    } catch {
+      alert("Share failed — network error.");
+    } finally {
+      setSharing(false);
+    }
+  };
 
   useEffect(() => {
     const payload = {
@@ -134,10 +188,26 @@ export default function Step5() {
                         <span className="material-symbols-outlined text-sm">edit</span>
                       </button>
                     )}
-                    <button className="bg-surface-container-highest text-on-primary-fixed px-8 py-4 rounded-lg font-headline font-bold hover:bg-surface-container-high transition-all">
-                      Download Report
-                    </button>
-                  </div>
+                    <button
+                        onClick={() => result && downloadPdf(result)}
+                        disabled={downloading}
+                        className="bg-surface-container-highest text-on-primary-fixed px-8 py-4 rounded-lg font-headline font-bold hover:bg-surface-container-high transition-all flex items-center space-x-2 disabled:opacity-60"
+                      >
+                        <span className="material-symbols-outlined text-sm">download</span>
+                        <span>{downloading ? "Generating…" : "Download PDF"}</span>
+                      </button>
+                      <button
+                        onClick={() => result && shareResult(result)}
+                        disabled={sharing}
+                        className="bg-surface-container-highest text-on-primary-fixed px-8 py-4 rounded-lg font-headline font-bold hover:bg-surface-container-high transition-all flex items-center space-x-2 disabled:opacity-60"
+                      >
+                        <span className="material-symbols-outlined text-sm">share</span>
+                        <span>{sharing ? "Generating…" : shareUrl ? "Link Copied!" : "Share Result"}</span>
+                      </button>
+                    </div>
+                    {shareUrl && (
+                      <p className="text-xs text-on-surface-variant mt-2 break-all">Shareable link (7 days): <span className="font-mono text-on-tertiary-container">{shareUrl}</span></p>
+                    )}
                 </div>
               </div>
 
