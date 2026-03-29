@@ -1,72 +1,34 @@
-# Loan Eligibility Calculator
+# 🏦 Senior Fintech Loan Eligibility Platform
 
-A full-stack loan eligibility web app built with **Next.js 15 (App Router)**, **TypeScript**, and **TailwindCSS**, targeting the Indian lending market.
+This project demonstrates **Senior-level System Design** and **Quantitative Finance** application in a modern Next.js 15 (App Router) environment.
 
-## Features
+## 🚀 Advanced Backend Infrastructure (v1)
 
-- **5-step application wizard** — personal info, loan details, existing debt, review, and result
-- **Live RBI rate integration** — loan interest rates derived from the RBI Repo Rate
-- **FOIR-based eligibility** — Fixed Obligation to Income Ratio calculation per RBI/NBFC guidelines
-- **Zod-validated API routes** — type-safe backend with proper error responses
-- **CIBIL score simulation** — 350–900 range score with credit band classification
-- **Age-based tenure cap** — loan must close before the borrower turns 60
-- **Customer dashboard** — full amortization schedule, EMI status tracking, and prepayment impact analysis
+We have implemented a production-ready API infrastructure in `/api/v1/` that focuses on **Reliability**, **Observability**, and **Security**:
 
-## Tech Stack
+1.  **API Versioning**: All core logic resides under `/api/v1/`, ensuring zero-downtime migrations in a real production environment.
+2.  **Request Tracing (Observability)**:
+    - Implemented via Next.js Middleware.
+    - Every request/response is tagged with a unique `X-Request-Id`.
+    - Enables "Log Correlation" — trace a single user request across multiple serverless functions.
+3.  **Idempotency (Reliability)**:
+    - Critical endpoints (like `/api/v1/loan/calculate`) support the `Idempotency-Key` header.
+    - Prevents accidental double-submissions (crucial for financial transactions).
+4.  **Standardized Response Envelope**:
+    - Every API returns a consistent structure: `{ success: boolean, data: T, error?: string, requestId: string, timestamp: string }`.
+    - Simplifies frontend error handling and provides built-in debugging metadata.
+5.  **Advanced Health Monitoring**:
+    - Accessible at `/api/v1/health`.
+    - Probes external dependencies (RBI rate sources) and reports system latency and uptime.
 
-- **Framework**: Next.js 15 (App Router)
-- **Language**: TypeScript
-- **Styling**: TailwindCSS v4
-- **Validation**: Zod
-- **Fonts**: Manrope + Inter (Google Fonts)
+## 📊 Quantitative Features
 
-## API Routes
+- **Monte Carlo Stress Test**: Simulates 1,000 income paths using **Geometric Brownian Motion (GBM)** to predict FOIR breach probability.
+- **Multi-Lender Comparison**: Real-time comparison across 6 major Indian lenders based on **Total Cost of Credit** (not just base rates).
+- **Stateless Shareable Results**: Uses **HMAC-SHA256** signed tokens to share results securely without a database.
+- **Server-Side PDF Reporting**: Generates official eligibility documents on the server for compliance and archival.
 
-| Method | Route | Description |
-|--------|-------|-------------|
-| GET | `/api/rates/live` | Fetch current RBI Repo Rate and derived lending rates |
-| POST | `/api/loan/calculate` | Run FOIR eligibility calculation with Zod validation |
-| POST | `/api/dashboard` | Generate amortization schedule and prepayment analysis |
-
-## Project Structure
-
-```
-src/
-├── app/
-│   ├── api/
-│   │   ├── rates/live/    # RBI rate fetch
-│   │   ├── loan/calculate/ # FOIR eligibility engine
-│   │   └── dashboard/     # Amortization schedule
-│   ├── step-1/            # Personal info
-│   ├── step-2/            # Loan details
-│   ├── step-3/            # Existing debt
-│   ├── step-4/            # Review summary
-│   ├── step-5/            # Eligibility result
-│   └── dashboard/         # Customer dashboard
-├── context/
-│   └── LoanContext.tsx    # Global state + utilities
-└── app/globals.css        # Theme variables
-```
-
-## Getting Started
-
-```bash
-npm install
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000).
-
-## Deployment
-
-Deploy directly on [Vercel](https://vercel.com). No database required — all calculations are stateless.
-
-## Eligibility Formula
-
-Eligibility is based on the **FOIR (Fixed Obligation to Income Ratio)** standard used by Indian banks and NBFCs:
-
-```
-FOIR Limit: Salaried 50% | Freelance 45% | Business 40%
-Available EMI = (Income × FOIR Limit) - Existing EMIs
-Max Loan = Available EMI × ((1 - (1 + r)^-n) / r)
-```
+## 🛠️ Technical Stack
+- **Framework**: Next.js 15 (App Router), TypeScript
+- **Styling**: Tailwind CSS v4 (Material 3 Inspiration)
+- **Math & Logic**: Zod (Validation), pdfkit (Reporting), HMAC (Security), Box-Muller (Gaussian Noise)

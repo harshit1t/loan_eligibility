@@ -46,7 +46,7 @@ export default function TaxBenefitPage() {
     setError(null);
     setResult(null);
     try {
-      const res = await fetch("/api/tax/benefit", {
+      const res = await fetch("/api/v1/tax/benefit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -60,7 +60,7 @@ export default function TaxBenefitPage() {
       });
       const json = await res.json();
       if (json.success) setResult(json.data);
-      else setError(JSON.stringify(json.details ?? json.error));
+      else setError(typeof json.details === 'object' ? Object.values(json.details).flat().join(", ") : (json.error || "Calculation failed"));
     } catch {
       setError("Network error");
     } finally {

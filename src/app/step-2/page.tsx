@@ -5,22 +5,18 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface Rates {
-  repo_rate: number;
-  home_loan_rate: number;
-  personal_loan_rate: number;
-  education_loan_rate: number;
-  business_loan_rate: number;
-  effective_date: string;
+  repoRate: number;
+  retailRates: {
+    Home: number;
+    Education: number;
+    Business: number;
+  };
+  timestamp: string;
   source: string;
 }
 
 function getRateForPurpose(rates: Rates, purpose: string): number {
-  const map: Record<string, keyof Rates> = {
-    Home: "home_loan_rate",
-    Education: "education_loan_rate",
-    Business: "business_loan_rate",
-  };
-  return rates[map[purpose] ?? "home_loan_rate"] as number;
+  return rates.retailRates[purpose as keyof Rates["retailRates"]] ?? rates.retailRates.Home;
 }
 
 export default function Step2() {
@@ -30,7 +26,7 @@ export default function Step2() {
   const [ratesLoading, setRatesLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/rates/live")
+    fetch("/api/v1/rates/live")
       .then((r) => r.json())
       .then((json) => {
         if (json.success) setRates(json.data);
@@ -161,7 +157,7 @@ export default function Step2() {
                   <div className="flex justify-between items-center py-3 border-b border-outline-variant/10">
                     <span className="font-label text-xs uppercase tracking-widest text-on-surface-variant">RBI Repo Rate</span>
                     <span className="font-headline font-bold text-on-tertiary-container">
-                      {ratesLoading ? "—" : `${rates?.repo_rate ?? "—"}%`}
+                      {ratesLoading ? "—" : `${rates?.repoRate ?? "—"}%`}
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-3 border-b border-outline-variant/10">
@@ -178,7 +174,7 @@ export default function Step2() {
                   </div>
                   {rates && (
                     <p className="text-[10px] text-outline italic pt-1">
-                      Rates effective from {rates.effective_date}. Subject to underwriting.
+                      Rates effective from {new Date(rates.timestamp).toLocaleDateString()}. Subject to underwriting.
                     </p>
                   )}
                 </div>

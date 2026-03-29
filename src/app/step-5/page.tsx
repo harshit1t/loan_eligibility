@@ -13,11 +13,12 @@ export default function Step5() {
   const [downloading, setDownloading] = useState(false);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [sharing, setSharing] = useState(false);
+  const [idempotencyKey] = useState(() => crypto.randomUUID());
 
   const downloadPdf = async (r: CalcResult) => {
     setDownloading(true);
     try {
-      const res = await fetch("/api/report/generate", {
+      const res = await fetch("/api/v1/report/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...r, fullName: data.fullName, loanPurpose: data.loanPurpose }),
@@ -27,7 +28,7 @@ export default function Step5() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `LoanCheck-${data.fullName.replace(/\s+/g, "-")}.pdf`;
+      a.download = `LoanCheck-v1-${data.fullName.replace(/\s+/g, "-")}.pdf`;
       a.click();
       URL.revokeObjectURL(url);
     } catch {
@@ -40,12 +41,12 @@ export default function Step5() {
   const shareResult = async (r: CalcResult) => {
     setSharing(true);
     try {
-      const res = await fetch("/api/share/generate", {
+      const res = await fetch("/api/v1/share", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...r,
-          annualRate: r.annualInterestRate, // fix: CalcResult uses annualInterestRate; API schema expects annualRate
+          annualRate: r.annualInterestRate,
           fullName: data.fullName,
           loanPurpose: data.loanPurpose,
         }),
@@ -79,9 +80,12 @@ export default function Step5() {
       activeLoanAccounts: Number(data.activeLoanAccounts || 0),
     };
 
-    fetch("/api/loan/calculate", {
+    fetch("/api/v1/loan/calculate", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Idempotency-Key": idempotencyKey
+      },
       body: JSON.stringify(payload),
     })
       .then((r) => r.json())
@@ -90,13 +94,13 @@ export default function Step5() {
           setResult(json.data);
           saveResult(json.data); // persist to context for dashboard
         } else {
-          const msgs = Object.values(json.details ?? {}).flat().join(", ");
+          const msgs = typeof json.details === 'object' ? Object.values(json.details).flat().join(", ") : "";
           setError(msgs || json.error || "Calculation failed.");
         }
       })
       .catch(() => setError("Network error. Please try again."))
       .finally(() => setLoading(false));
-  }, [data]);
+  }, [data, idempotencyKey, saveResult]);
 
   const scoreProgress = result ? (result.cibilScore - 350) / (900 - 350) : 0;
   const dashArray = 440;

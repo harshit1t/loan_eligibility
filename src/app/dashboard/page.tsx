@@ -77,7 +77,7 @@ export default function Dashboard() {
       return;
     }
 
-    fetch("/api/dashboard", {
+    fetch("/api/v1/dashboard", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

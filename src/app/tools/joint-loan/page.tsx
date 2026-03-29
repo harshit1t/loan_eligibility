@@ -61,30 +61,22 @@ export default function JointLoanPage() {
     setError(null);
     setResult(null);
     try {
-      const res = await fetch("/api/loan/joint-calculate", {
+      const res = await fetch("/api/v1/loan/joint-calculate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          primaryApplicant: {
-            monthlyIncome: Number(form.pa.monthlyIncome),
-            employmentStatus: form.pa.employmentStatus,
-            monthlyEmi: Number(form.pa.monthlyEmi),
-            age: Number(form.pa.age),
-          },
-          coApplicant: {
-            monthlyIncome: Number(form.ca.monthlyIncome),
-            employmentStatus: form.ca.employmentStatus,
-            monthlyEmi: Number(form.ca.monthlyEmi),
-            age: Number(form.ca.age),
-          },
+          primaryIncome: Number(form.pa.monthlyIncome),
+          secondaryIncome: Number(form.ca.monthlyIncome),
+          primaryEmi: Number(form.pa.monthlyEmi),
+          secondaryEmi: Number(form.ca.monthlyEmi),
           requestedCapital: Number(form.requestedCapital),
-          repaymentTerm: Number(form.repaymentTerm),
+          tenureMonths: Number(form.repaymentTerm), // match v1 key
           annualRate: Number(form.annualRate),
         }),
       });
       const json = await res.json();
       if (json.success) setResult(json.data);
-      else setError(JSON.stringify(json.details ?? json.error));
+      else setError(typeof json.details === 'object' ? Object.values(json.details).flat().join(", ") : (json.error || "Calculation failed"));
     } catch {
       setError("Network error");
     } finally {

@@ -58,7 +58,7 @@ export default function LoanComparePage() {
     setError(null);
     setResult(null);
     try {
-      const res = await fetch("/api/loan/compare", {
+      const res = await fetch("/api/v1/loan/compare", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -72,7 +72,7 @@ export default function LoanComparePage() {
       });
       const json = await res.json();
       if (json.success) setResult(json.data);
-      else setError(JSON.stringify(json.details ?? json.error));
+      else setError(typeof json.details === 'object' ? Object.values(json.details).flat().join(", ") : (json.error || "Comparison failed"));
     } catch {
       setError("Network error");
     } finally {
